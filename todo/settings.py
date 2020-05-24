@@ -25,7 +25,7 @@ SECRET_KEY = 'h3fx&%)6tgk8i%^lk99c80d^e&7hjgqggy+jyxxqj127bzq_c+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['crustyapples.pythonanywhere.com',]
 
 
 # Application definition
