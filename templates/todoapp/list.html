@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <style>
+    body {
+        background: #04151fff;
+        font-family: monospace;
+        color: #d7ceb2ff;
+              }
+        
+    h1 {
+                  margin: 5px;
+                  text-align: center;
+                  
+              }
+    .card-block {
+          background-color: #5d5e60ff;
+          padding: 1em;
+          padding-right: 5em;
+          position: relative;
+          font-size: larger;
+
+      }
+
+      .btn-outline-dark {
+          position: absolute;
+          right: 5px;
+          bottom: 7px;
+          color: #381d2aff;
+      }
+
+      .btn-outline-secondary {
+          position: absolute;
+          right: 90px;
+          bottom: 7px;
+          color: #d7ceb2ff;
+
+      }
+
+      .btn-outline-secondary:hover {
+        background-color: #d7ceb2ff;
+        color: #381d2aff;
+      }
+
+        .btn-outline-dark:hover {
+          background-color: #381d2aff;
+          color: darkgrey;
+      }
+
+        .form-group {
+            text-align: center;
+      }
+
+        #hiddenSub {
+            visibility:hidden;
+        }
+        #completed {
+            opacity: 0.5;
+        }
+                </style>
+    </head>
+    <body>
+        <h1>a todo list</h1>
+        
+        <div class="container">
+            <form method="POST">
+                <div class="form-group">
+                    {% csrf_token %}
+                    <div class="django-form">{{ form.task }}
+                        <input id='hiddenSub'type="submit" name="Create Task">
+                    </div>
+                </div>
+            </form>
+    
+            {% for task in tasks %}
+            {% if task.id in session_task_id %}
+            {% if task.complete == True %}
+            <div class= "card-block mb-3 rounded" id="completed">
+                    
+                    <strike>{{ task.task }}</strike>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input class = "btn btn-outline-dark" type="submit" name="{{ task.id }}" value="Delete">
+                        <input class = "btn btn-outline-secondary" type="submit" name="{{ task.id }}" value="Complete">
+                    </form>
+            </div>       
+                    
+            {% else %}
+            <div class= "card-block mb-3 rounded">        
+                    {{ task.task }}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input class = "btn btn-outline-dark" type="submit" name="{{ task.id }}" value="Delete">
+                        <input class = "btn btn-outline-secondary" type="submit" name="{{ task.id }}" value="Complete">
+                    </form>
+                    
+            </div>
+            {% endif %}
+            {% endif %}        
+
+            {% endfor %}
+        </div>
+        
+    </body>
+    <script>
+        const taskCard = document.querySelector(".card-block");
+        
+        var completeTask = function(event) {
+            const item = event.target;
+            console.log(item);
+            if (item.classList[0] == 'card-block') {
+                console.log("completed");
+            }
+        }
+        
+        taskCard.addEventListener('click', completeTask);
+    </script>
+</html>
